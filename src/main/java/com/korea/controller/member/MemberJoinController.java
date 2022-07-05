@@ -17,7 +17,7 @@ public class MemberJoinController implements SubController{
 	@Override
 	public void execute(HttpServletRequest req, HttpServletResponse resp) {
 		System.out.println("=====MEMBER JOIN CONTROLLER====");
-		
+		// 
 		String flag = req.getParameter("flag");
 		try {
 			if(flag==null) { // 로그인에서 회원가입 버튼을 누름

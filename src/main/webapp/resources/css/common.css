@@ -4,3 +4,22 @@ body {
 	width:80%;
 	margin: 0px auto;
 }
+
+
+/* --- 탑 메뉴 스타일 --- */
+#topmenu {
+	margin-right:5px;
+}
+#topmenu ul {
+	list-style : none;
+	padding : 0px;
+}
+#topmenu li {
+	width:80px;
+	text-align:right;
+}
+#topmenu a {
+	text-decoration:none;
+	color:black;
+}
+/* --- 탑 메뉴 스타일 --- */

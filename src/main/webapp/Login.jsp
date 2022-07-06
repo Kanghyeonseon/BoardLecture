@@ -9,24 +9,36 @@
 <link rel="stylesheet" href="resources/css/common.css">
 </head>
 <body>
-	<div class="container-md" style="width:400px; height:400px; margin:200px auto;">
-		<div class="row m-3" id="logo">
-			<div class="col" style="text-align:center;">
-				<i class="bi bi-bootstrap" style="font-size:7rem;"></i>
+<%
+ String MSG = (String)request.getAttribute("MSG"); //object형이므로 형변환
+ if(MSG!=null) {
+	 %>
+	 <script>
+	 	alert("<%=MSG %>");
+	 </script>
+	 <%
+ }
+%>
+	<form action="/Login.do" method="post">
+		<div class="container-md" style="width:400px; height:400px; margin:200px auto;">
+			<div class="row m-3" id="logo">
+				<div class="col" style="text-align:center;">
+					<i class="bi bi-bootstrap" style="font-size:7rem;"></i>
+				</div>
+			</div>
+			<div class="row m-3">
+				<input type="email" name="email" class="form-control" placeholder="아이디를 입력하세요">
+			</div>
+			<div class="row m-3">
+				<input type="password" name="pwd" class="form-control" placeholder="패스워드를 입력하세요">
+			</div>
+			<div class="row m-3">
+				<input type="submit" value="로그인" class="btn btn-primary">
+			</div>
+			<div class="row m-3">
+				<a href="/MemberJoin.do" class="btn btn-primary">회원가입</a>
 			</div>
 		</div>
-		<div class="row m-3">
-			<input name="userid" class="form-control" placeholder="아이디를 입력하세요">
-		</div>
-		<div class="row m-3">
-			<input type="password" name="pwd" class="form-control" placeholder="패스워드를 입력하세요">
-		</div>
-		<div class="row m-3">
-			<input type="submit" value="로그인" class="btn btn-primary">
-		</div>
-		<div class="row m-3">
-			<a href="/MemberJoin.do" class="btn btn-primary">회원가입</a>
-		</div>
-	</div>
+	</form>
 </body>
 </html>

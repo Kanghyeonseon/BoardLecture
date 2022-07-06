@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.korea.controller.auth.LoginController;
+import com.korea.controller.auth.LogoutController;
+import com.korea.controller.member.MemberInfoController;
 import com.korea.controller.member.MemberJoinController;
 
 
@@ -20,8 +23,17 @@ public class FrontController extends HttpServlet{
 	@Override
 	public void init() throws ServletException {
 		list = new HashMap();
+		
+		// 회원관련
 		list.put("/MemberJoin.do", new MemberJoinController());
-		// /MemberJoin.do라는 url과 MemberJoinController 위치정보가 리스트에 들어간다.
+		list.put("/MemberInfo.do", new MemberInfoController());
+		
+		// 로그인 관련
+		list.put("/Login.do", new LoginController());
+		
+		//로그아웃 관련
+		list.put("/Logout.do", new LogoutController());
+		
 	}
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

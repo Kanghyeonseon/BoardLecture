@@ -15,8 +15,6 @@
 	String addr1 = (String) dto.getAddr1();
 	String addr2 = (String)	dto.getAddr2();
 %>
-
-
 	<div class="container-md" id="wrapper" style="width:80%; margin: 100px auto;">
 		<!-- Top Menu -->
 		<%@include file="/resources/includes/topmenu.jsp" %>
@@ -47,6 +45,10 @@
 						<tr>
 							<td>addr2</td>
 							<td><input type="text" name="addr2" class="form-control" placeholder="<%=addr2%>" style="border:none;"></td>
+						</tr>
+						<tr>
+							<td>password</td>
+							<td><input type="password" name="pwd" class="form-control" value="<%=dto.getPwd() %>" placeholder="변경할 비밀번호를 입력하세요." style="border:none;"></td>
 						</tr>
 					</tbody>
 				</table>

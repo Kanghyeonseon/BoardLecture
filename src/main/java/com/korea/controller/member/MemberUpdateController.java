@@ -39,10 +39,13 @@ public class MemberUpdateController implements SubController{
 					String addr1 = req.getParameter("addr1");
 					String addr2 = req.getParameter("addr2");
 					
-					System.out.println("addr1" + addr1);
 					dto.setAddr1(addr1);
 					dto.setAddr2(addr2);
 					
+					//패스워드 변경 작업
+					String newpwd = req.getParameter("newpwd"); // newpwd는 password.jsp에서 처음 정의한다.
+					newpwd = service.passwordEncoder.hashpw(newpwd, service.passwordEncoder.gensalt());
+					dto.setPwd(newpwd);
 					
 					service.MemberUpdate(dto);
 					

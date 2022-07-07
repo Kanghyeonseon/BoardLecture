@@ -31,6 +31,7 @@
 				<!-- 리퀘스트가 초히화 될 예정이기 때문에 -->
 				<input type="hidden" name="addr1" value="<%=request.getParameter("addr1") %>">
 				<input type="hidden" name="addr2" value="<%=request.getParameter("addr2") %>">
+				<input type="hidden" name="newpwd" value="<%=request.getParameter("pwd") %>">
 			</form>
 		</div>	
 		

@@ -29,4 +29,7 @@ public class MemberService {
 	public MemberDTO MemberSearch(String email) {
 		return dao.Select(email);
 	}
+	public boolean MemberUpdate(MemberDTO dto) {
+		return dao.Update(dto);
+	}
 }

@@ -8,8 +8,12 @@
 <%@ include file="/resources/includes/link.jsp" %>
 </head>
 <body>
+<%@page import="com.korea.dto.MemberDTO" %>
 <%
-	String email = (String) session.getAttribute("email");
+	MemberDTO dto = (MemberDTO) request.getAttribute("dto");
+	String email = (String) dto.getEmail();
+	String addr1 = (String) dto.getAddr1();
+	String addr2 = (String)	dto.getAddr2();
 %>
 
 
@@ -21,30 +25,26 @@
 		<%@include file="/resources/includes/nav.jsp" %>
 	
 		<!-- Main Contents -->
-		<div id="maincontents" style="border:1px solid gray; margin-top:15px;">
-		<h1>회원정보</h1>
-			<table class="table w-75 table-striped" style="margin:100px auto;">
-				<tr>
-					<td>Email</td>
-					<td><%=email %></td>
-				</tr>
-				<tr>
-					<td>addr1</td>
-					<td>대구</td>
-				</tr>
-				<tr>
-					<td>addr2</td>
-					<td>대구대구</td>
-				</tr>
-				<tr>
-					<td>
-						<button class="btn btn-primary w-50">정보수정</button>
-					</td>
-					<td>
-						<button class="btn btn-secondary w-50">메인이동</button>
-					</td>
-				</tr>
-			</table>
+		<div id="maincontents" class="container-md" style="margin-top:20px;">
+		<h2>회원정보</h2>
+			<form action="/MemberUpdate.do" method="post">
+				<table class="table table-striped" style="margin:30px auto;">
+					<tr>
+						<td>Email</td>
+						<td><%=email %></td>
+					</tr>
+					<tr>
+						<td>addr1</td>
+						<td><input type="text" class="form-control" placeholder="<%=addr1%>"></td>
+					</tr>
+					<tr>
+						<td>addr2</td>
+						<td><input type="text" class="form-control" placeholder="<%=addr2%>"></td>
+					</tr>
+				</table>
+				<button class="btn btn-primary w-20">정보수정</button>
+				<button class="btn btn-secondary w-20">메인이동</button>
+			</form>
 		</div>	
 		
 		<!-- Footer -->

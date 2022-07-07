@@ -39,6 +39,9 @@ public class MemberJoinController implements SubController{
 			dto.setAddr1(addr1);
 			dto.setAddr2(addr2);
 			boolean result = service.MemberInsert(dto);
+			if(result) {
+				System.out.println("회원가입 성공!");
+			}
 			
 			// 4. View로 이동
 			resp.sendRedirect("/");

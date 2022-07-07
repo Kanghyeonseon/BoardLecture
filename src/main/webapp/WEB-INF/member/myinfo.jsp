@@ -28,22 +28,30 @@
 		<div id="maincontents" class="container-md" style="margin-top:20px;">
 		<h2>회원정보</h2>
 			<form action="/MemberUpdate.do" method="post">
-				<table class="table table-striped" style="margin:30px auto;">
-					<tr>
-						<td>Email</td>
-						<td><%=email %></td>
-					</tr>
-					<tr>
-						<td>addr1</td>
-						<td><input type="text" class="form-control" placeholder="<%=addr1%>"></td>
-					</tr>
-					<tr>
-						<td>addr2</td>
-						<td><input type="text" class="form-control" placeholder="<%=addr2%>"></td>
-					</tr>
+				<table class="table table-hover align-middle" style="margin:30px auto;">
+					<thead>
+						<tr class="table-light">
+							<th>분류</th>
+							<th>정보</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Email</td>
+							<td><input type="text" class="form-control" placeholder="<%=email%>" style="border:none;" disabled ></td>
+						</tr>
+						<tr>
+							<td>addr1</td>
+							<td><input type="text" class="form-control" placeholder="<%=addr1%>" style="border:none;"></td>
+						</tr>
+						<tr>
+							<td>addr2</td>
+							<td><input type="text" class="form-control" placeholder="<%=addr2%>" style="border:none;"></td>
+						</tr>
+					</tbody>
 				</table>
-				<button class="btn btn-primary w-20">정보수정</button>
-				<button class="btn btn-secondary w-20">메인이동</button>
+			<input type="submit" class="btn btn-primary w-20" value="정보수정">
+			<button class="btn btn-secondary w-20">메인이동</button>
 			</form>
 		</div>	
 		

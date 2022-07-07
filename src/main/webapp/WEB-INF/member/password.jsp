@@ -22,13 +22,15 @@
 				<table class="table table-hover align-middle" style="margin:30px auto;">
 					<tr>
 						<td>
-							<input type="password" name="pwd">
+							<input type="password" class="form-control" name="pwd">
 						</td>
 					</tr>
 				</table>
-			<input type="submit" href="/MemberUpdate.do" class="btn btn-primary w-20" value="정보수정">
-			<button class="btn btn-secondary w-20">메인이동</button>
-			<input type="hidden" name="flag" value="true">
+				<input type="submit" class="btn btn-primary w-20" value="패스워드 입력">
+				<input type="hidden" name="flag" value="true">
+				<!-- 리퀘스트가 초히화 될 예정이기 때문에 -->
+				<input type="hidden" name="addr1" value="<%=request.getParameter("addr1") %>">
+				<input type="hidden" name="addr2" value="<%=request.getParameter("addr2") %>">
 			</form>
 		</div>	
 		

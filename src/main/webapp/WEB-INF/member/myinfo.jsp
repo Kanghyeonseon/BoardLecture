@@ -42,11 +42,11 @@
 						</tr>
 						<tr>
 							<td>addr1</td>
-							<td><input type="text" class="form-control" placeholder="<%=addr1%>" style="border:none;"></td>
+							<td><input type="text" name="addr1" class="form-control" placeholder="<%=addr1%>" style="border:none;"></td>
 						</tr>
 						<tr>
 							<td>addr2</td>
-							<td><input type="text" class="form-control" placeholder="<%=addr2%>" style="border:none;"></td>
+							<td><input type="text" name="addr2" class="form-control" placeholder="<%=addr2%>" style="border:none;"></td>
 						</tr>
 					</tbody>
 				</table>

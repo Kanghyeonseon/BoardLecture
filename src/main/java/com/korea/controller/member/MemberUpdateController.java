@@ -25,6 +25,7 @@ public class MemberUpdateController implements SubController{
 		
 		try {
 			if(flag==null) { // myinfo.jsp에서 요청받음
+				
 				req.getRequestDispatcher("/WEB-INF/member/password.jsp").forward(req, resp);
 				// 패스워드 입력 페이지로 이동
 			} else { // password.jsp에서 요청받음
@@ -38,14 +39,21 @@ public class MemberUpdateController implements SubController{
 					String addr1 = req.getParameter("addr1");
 					String addr2 = req.getParameter("addr2");
 					
+					System.out.println("addr1" + addr1);
 					dto.setAddr1(addr1);
 					dto.setAddr2(addr2);
 					
+					
+					service.MemberUpdate(dto);
+					
+					System.out.println();
+					req.setAttribute("dto", dto);
+					req.getRequestDispatcher("/WEB-INF/member/myinfo.jsp").forward(req, resp);
+					return;
 				} else {
-					
+					req.getRequestDispatcher("/WEB-INF/member/password.jsp").forward(req, resp);
+					return;
 				}
-					
-				
 			}
 		} catch (Exception e) { e.printStackTrace(); }
 		

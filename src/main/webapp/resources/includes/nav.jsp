@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#"><i class="bi bi-house"></i></a>
+    <a class="navbar-brand" href="/main.jsp"><i class="bi bi-house"></i></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -12,10 +12,10 @@
           <a class="nav-link active me-5" aria-current="page" href="#">API</a>
         </li>
         <li class="nav-item me-5">
-          <a class="nav-link" href="#">공지사항</a>
+          <a class="nav-link" href="/Notice/list.do">공지사항</a>
         </li>
         <li class="nav-item me-5">
-          <a class="nav-link" href="#">게시판</a>
+          <a class="nav-link" href="/Board/list.do">게시판</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

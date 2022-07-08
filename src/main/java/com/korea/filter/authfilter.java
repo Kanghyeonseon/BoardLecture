@@ -14,6 +14,8 @@ public class authfilter implements Filter{
 			throws IOException, ServletException {
 		//request 전 처리
 		System.out.print("Filter 처리! - request전");
+		req.setCharacterEncoding("UTF-8");
+		resp.setContentType("text/html; charset=UTF-8");
 		chain.doFilter(req, resp);
 		//response로 외부로 나가기 전 처리
 		System.out.println("Filter처리! - response전");

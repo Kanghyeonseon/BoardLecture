@@ -13,7 +13,6 @@ public class LogoutController implements SubController{
 		HttpSession session = req.getSession();
 		session.invalidate();
 		try {
-			authfilter.filterflag = false;
 			req.setAttribute("MSG", "로그아웃 완료!");
 			req.getRequestDispatcher("/").forward(req, resp);
 		} catch (Exception e) {

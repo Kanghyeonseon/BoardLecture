@@ -53,10 +53,10 @@ public class authfilter implements Filter{
 			pagegrade = pageGradeMap.get(URL);
 			System.out.println("page grade : " + pagegrade);
 		}
-		if(usergrade==0 && pagegrade>=1) {
+		if(usergrade==0 && pagegrade>=1) { // guest계정 권한처리
 			throw new ServletException("로그인이 필요한 페이지입니다.");
 		}
-		if(usergrade<2 && pagegrade==2) {
+		if(usergrade<2 && pagegrade==2) { // admin이 아닌 계정 권한 처리
 			throw new ServletException("관리자 권한이 필요합니다.");
 		}
 		chain.doFilter(req, resp);

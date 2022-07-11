@@ -38,5 +38,6 @@ public class DaoTest {
 //		MemberDTO dto = dao.Select("ample@example.com");
 //		System.out.println("결과 : " + dto.toString());
 //	}
+	
 
 }

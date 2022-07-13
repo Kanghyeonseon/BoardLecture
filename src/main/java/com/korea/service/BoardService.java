@@ -21,4 +21,12 @@ public class BoardService {
 	public List<BoardDTO> getBoardList(int start, int end){
 		return dao.Select(start, end);
 	}
+	
+	public int getTotalCnt() {
+		return dao.getTotalCount();
+	}
+	
+	public boolean PostBoard(BoardDTO dto) {
+		return dao.Insert(dto);
+	}
 }

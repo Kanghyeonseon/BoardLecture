@@ -9,9 +9,7 @@
 </head>
 <body>
 
-	<div class="container-md" id="wrapper" style="width:80%; margin: 100px auto;">
-
-	
+	<div class="container-md" id="wrapper" style="margin: 100px auto;">
 		<!-- Top Menu -->
 		<%@include file="/resources/includes/topmenu.jsp" %>
 		

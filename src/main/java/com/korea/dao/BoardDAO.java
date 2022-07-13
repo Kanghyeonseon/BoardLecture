@@ -36,6 +36,7 @@ public class BoardDAO {
 		} catch(Exception e) { e.printStackTrace(); }
 	}
 	
+	// 시작페이지, 끝페이지 번호를 받아서 조회
 	public List<BoardDTO> Select(int start, int end){
 		ArrayList<BoardDTO> list = new ArrayList();
 		BoardDTO dto = null;
@@ -67,4 +68,45 @@ public class BoardDAO {
 			try { rs.close(); } catch(Exception e) { e.printStackTrace(); }
 		} return list;
 	}
+	
+	// 모든 게시물 개수 조회
+	public int getTotalCount() {
+		int result = 0;
+		try {
+			pstmt = conn.prepareStatement("select count(*) from tbl_board");
+			rs = pstmt.executeQuery();
+			rs.next();
+			result = rs.getInt(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try { pstmt.close(); } catch(Exception e) { e.printStackTrace(); }
+			try { rs.close(); } catch(Exception e) { e.printStackTrace(); }
+		}
+		return result;
+	}
+	
+	
+	// 글 작성 메서드
+	public boolean Insert(BoardDTO dto) {
+		try {
+			pstmt = conn.prepareStatement("insert into tbl_board values(TBL_BOARD_SEQ.nextval, ?, ?, ?, sysdate, ?, 0, ?, '0', '0')");
+			pstmt.setString(1, dto.getTitle());
+			pstmt.setString(2, dto.getContent());
+			pstmt.setString(3, dto.getWriter());
+			pstmt.setString(4, dto.getPwd());
+			pstmt.setString(5, dto.getIp());
+			int result = pstmt.executeUpdate();
+			if(result>0) {
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try { pstmt.close(); } catch (Exception e) { e.printStackTrace(); }
+		}
+		return false;
+	}
+	
+	
 }

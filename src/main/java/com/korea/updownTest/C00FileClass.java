@@ -1,6 +1,6 @@
 package com.korea.updownTest;
 import java.io.*;
-public class C01FileClass {
+public class C00FileClass {
 	public static void main(String[] args) {
 		// 1. 파일 디렉토리 여부 확인
 		File tmp = new File("C:\\Users\\ASUS\\Documents\\upload");

@@ -34,7 +34,7 @@
 			
 			<h1>글쓰기</h1>
 			
-			<form action="/Board/post.do" method="post">
+			<form action="/Board/post.do" method="post" enctype="multipart/form-data">
 				<input type="text" name="title" class="form-control mb-3" placeholder="제목을 입력하세요.">
 				<textarea name="content" rows="10" class="form-control mb-3" placeholder="내용을 입력하세요."></textarea>
 				<input type="password" name="pwd" class="form-control mb-3" placeholder="게시글의 패스워드를 입력하세요.">

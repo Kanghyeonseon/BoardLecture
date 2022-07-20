@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,12 +91,14 @@ public class BoardDAO {
 	// 글 작성 메서드
 	public boolean Insert(BoardDTO dto) {
 		try {
-			pstmt = conn.prepareStatement("insert into tbl_board values(TBL_BOARD_SEQ.nextval, ?, ?, ?, sysdate, ?, 0, ?, '0', '0')");
+			pstmt = conn.prepareStatement("insert into tbl_board values(TBL_BOARD_SEQ.nextval, ?, ?, ?, sysdate, ?, 0, ?, ?, ?)");
 			pstmt.setString(1, dto.getTitle());
 			pstmt.setString(2, dto.getContent());
 			pstmt.setString(3, dto.getWriter());
 			pstmt.setString(4, dto.getPwd());
 			pstmt.setString(5, dto.getIp());
+			pstmt.setString(6, dto.getFilename());
+			pstmt.setString(7, dto.getFilesize());
 			int result = pstmt.executeUpdate();
 			if(result>0) {
 				return true;
@@ -108,5 +111,87 @@ public class BoardDAO {
 		return false;
 	}
 	
+	
+	public BoardDTO Select(int No) {
+		BoardDTO dto = new BoardDTO();
+		try {
+			pstmt = conn.prepareStatement("select * from tbl_board where no=?");
+			pstmt.setInt(1, No);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				dto.setWriter(rs.getString("writer"));
+				dto.setContent(rs.getString("content"));
+				dto.setTitle(rs.getString("title"));
+				dto.setPwd(rs.getString("pwd"));
+				dto.setNo(rs.getInt("no"));
+				dto.setIp(rs.getString("ip"));
+				dto.setFilename(rs.getString("filename"));
+				dto.setFilesize(rs.getString("filesize"));
+				dto.setCount(rs.getInt("count"));
+				dto.setRegdate(rs.getString("regdate"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try { rs.close(); } catch (Exception e) { e.printStackTrace(); }
+			try { pstmt.close(); } catch (Exception e) { e.printStackTrace(); }
+		}
+		return dto;
+	}
+	
+	public int getLastNo() {
+		try {
+			pstmt = conn.prepareStatement("select /*+INDEX_DESC(tbl_board PK_NO) */ rownum rn, no from tbl_board where rownum=1");
+			rs = pstmt.executeQuery();
+			rs.next();
+			int no = rs.getInt(2);
+			return no;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try { rs.close(); } catch (Exception e) { e.printStackTrace(); }
+			try { pstmt.close(); } catch (Exception e) { e.printStackTrace(); }
+		}
+		return 0;
+	}
+	
+	public void CountUp(int no) {
+		try {
+			pstmt = conn.prepareStatement("update tbl_board set count=count+1 where no=?");
+			pstmt.setInt(1, no);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try { pstmt.close(); } catch (Exception e) { e.printStackTrace(); }
+		}
+	}
+	
+	public boolean Update(BoardDTO dto) {
+		try {
+			pstmt = conn.prepareStatement("update tbl_board set title=?, content=? where no=?");
+			pstmt.setString(1, dto.getTitle());
+			pstmt.setString(2, dto.getContent());
+			pstmt.setInt(3, dto.getNo());
+			int result = pstmt.executeUpdate();
+			if(result>0) return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try { pstmt.close(); } catch (Exception e) { e.printStackTrace(); }
+		}
+		return false;
+	}
+	
+	public boolean Delete(BoardDTO dto) {
+		try {
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try { pstmt.close(); } catch (Exception e) { e.printStackTrace(); }
+		}
+		return false;
+	}
 	
 }

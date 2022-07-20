@@ -2,9 +2,11 @@ package com.korea.controller.board;
 
 import java.util.ArrayList;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import com.korea.controller.SubController;
 import com.korea.dto.BoardDTO;
@@ -41,7 +43,20 @@ public class BoardPostController implements SubController {
 				dto.setPwd(pwd);
 				dto.setIp(ip);
 				dto.setWriter(writer);
-				boolean result = service.PostBoard(dto);
+				
+				// 추가 파일 전달
+				ArrayList<Part> parts = ( ArrayList<Part>)req.getParts();
+				
+				boolean result = false;
+				long size = parts.get(3).getSize();
+				
+				if(size==0) { // 파일 없이 업로드
+					result = service.PostBoard(dto);
+				} else {		// 파일과 함께 업로드
+					result = service.PostBoard(dto, parts);
+				}
+				
+				
 				if(result) {
 					resp.sendRedirect("/Board/list.do");
 					System.out.println("글 작성 완료!"); 

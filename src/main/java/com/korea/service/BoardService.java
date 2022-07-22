@@ -20,6 +20,7 @@ import javax.servlet.http.Part;
 
 import com.korea.dao.BoardDAO;
 import com.korea.dto.BoardDTO;
+import com.korea.dto.ReplyDTO;
 
 public class BoardService {
 	private BoardDAO dao = BoardDAO.getInstance();
@@ -52,7 +53,7 @@ public class BoardService {
 	public boolean PostBoard(BoardDTO dto, ArrayList<Part> parts) {
 		// 업로드 처리
 		// 1. 하위폴더명 지정
-		String no = String.valueOf(dao.getLastNo() + 1);
+		String no = String.valueOf(dao.getLastNo());
 		String email = dto.getWriter();
 		Date now = new Date();
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -237,17 +238,33 @@ public class BoardService {
 	}
 	
 	public boolean BoardRemove(BoardDTO dto) {
-		String email = dto.getWriter();
-		String regdate = dto.getRegdate().substring(0, 10);
-		String no =String.valueOf(dto.getNo());
-		String dirpath = UploadPath + email + "/" + regdate + "/" + no;
-		File dir = new File(dirpath); // 설정한 경로의 문자열을 파일 형식으로 바꿔준다. : 폴더가 된다.
-		File[] filelist = dir.listFiles(); // 디렉토리 안에 있는 파일들을 배열에 불러온다. 디렉토리를 그냥 삭제할 수 없고 안에있는 파일을 삭제해줘야한다.
-		for(File filename : filelist) {
-			filename.delete(); // 파일 삭제
+		if(dto.getFilename()!=null) {
+			String email = dto.getWriter();
+			String regdate = dto.getRegdate().substring(0, 10);
+			String no =String.valueOf(dto.getNo());
+			String dirpath = UploadPath + email + "/" + regdate + "/" + no;
+			File dir = new File(dirpath); // 설정한 경로의 문자열을 파일 형식으로 바꿔준다. : 폴더가 된다.
+			File[] filelist = dir.listFiles(); // 디렉토리 안에 있는 파일들을 배열에 불러온다. 디렉토리를 그냥 삭제할 수 없고 안에있는 파일을 삭제해줘야한다.
+			if(filelist!=null) {
+				for(File filename : filelist) {
+					filename.delete(); // 파일 삭제
+				}
+				dir.delete(); // 폴더 삭제
+				return dao.Delete(dto);
+			}
 		}
-		dir.delete(); // 폴더 삭제
-		
 		return dao.Delete(dto);
+	}
+	
+	public boolean replypost(ReplyDTO rdto) {
+		return dao.replypost(rdto);
+	}
+	
+	public ArrayList<ReplyDTO> getReplylist(int bno) {
+		return dao.getReplylist(bno);
+	}
+	
+	public int getTotalReplyCnt(int bno) {
+		return dao.getTotalReplyCnt(bno);
 	}
 }

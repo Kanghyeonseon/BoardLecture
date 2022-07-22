@@ -1,6 +1,7 @@
 package com.korea.controller.board;
 
 import javax.servlet.http.HttpServletRequest;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -20,8 +21,25 @@ public class BoardDeleteController implements SubController{
 		BoardDTO dto = (BoardDTO) session.getAttribute("dto");
 		
 		if(dto.getPwd().equals(pwd)) {
-			service.BoardRemove(dto);
+			try {
+				service.BoardRemove(dto);
+				String MSG = "글 삭제 성공!";
+				req.setAttribute("MSG", MSG);
+				int numPerPage = 10;
+				int start = (Integer.parseInt(nowPage) * numPerPage) - numPerPage + 1;
+				int end = (Integer.parseInt(nowPage) * numPerPage);
+				req.getRequestDispatcher("/Board/list.do?nowPage=" + nowPage + "&start=" + start + "&end=" + end).forward(req, resp);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		} else {
+			try {
+				String MSG = "패스워드 불일치";
+				req.setAttribute("MSG", MSG);
+				req.getRequestDispatcher("/Board/read.do?no="+dto.getNo()+"&nowpage").forward(req, resp);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

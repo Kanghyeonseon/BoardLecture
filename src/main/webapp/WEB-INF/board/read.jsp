@@ -6,6 +6,9 @@
 <meta charset="UTF-8">
 <title>게시글보기</title>
 <%@ include file="/resources/includes/link.jsp" %>
+<!-- css -->
+<link rel="stylesheet" href="/resources/css/common.css?v=2">
+
 </head>
 <body>
 	<%
@@ -18,7 +21,6 @@
 			<%
 			request.setAttribute("MSG", null);
 		}
-	
 	%>
 	
 	<div class="container-md" id="wrapper" style="margin: 100px auto;">
@@ -44,7 +46,7 @@
 			</div>
 			<!-- 브래드크럼 끝 -->
 			
-			<h1>글내용</h1>
+			<h1 class="mt-3 mb-3">글내용</h1>
 			<%@page import="com.korea.dto.*" %>
 			<%
 				BoardDTO dto = (BoardDTO) request.getAttribute("dto");
@@ -67,17 +69,20 @@
 				<input type="text" id="title" name="title" class="form-control mb-3" value="<%=dto.getTitle() %>">
 				<input type="text" name="writer" class="form-control mb-3" value="<%=dto.getWriter() %>" disabled> 
 				<textarea name="content" id="content" rows="10" class="form-control mb-3"><%=dto.getContent() %></textarea>
-				<input type="text" name="ip" class="form-control mb-3" value="Remote IP : <%=dto.getIp() %>">
 
 				
-				<a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">글 수정</a>
-				<a href="/Board/list.do?nowPage=<%=nowPage %>&start=<%=start %>&end=<%=end %>" class="btn btn-primary">리스트</a>
-				<a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop3">글삭제</a>
-				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+				<a href="/Board/list.do?nowPage=<%=nowPage %>&start=<%=start %>&end=<%=end %>" class="btn btn-light"><i class="bi bi-list"></i>
+				리스트</a>
+				<a href="#" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">글수정</a>
+				<a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop3">글삭제</a>
+				<button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
 				  첨부파일보기
 				</button>
 				
 			</form>
+			<p class="mt-3" style="font-size:0.5rem;">
+				Remote IP : <%=dto.getIp() %>
+			</p>
 				
 			<!-- 모달시작 -->
 			<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -159,7 +164,6 @@
 		
 		
 	
-	</div>
 	
 	<!-- *************************** 글 수정 모달 *************************** -->
 	<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -175,7 +179,7 @@
 		        <input type="password" name="pwd" class="form-control mb-3" placeholder="Insert Password">
 		        <input type="hidden" name="title">
 		        <input type="hidden" name="content">
-		        <input type="hidden" name="nowPage" value="<%=nowPage %>">
+		        <input type="hidden" name="nowPage" value="<%=nowPage %>" >
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-primary" id="updatebtn">수정요청</button>
@@ -233,7 +237,73 @@
   </script>
   <!-- *************************** 글 삭제 모달 끝   *************************** -->
   
-	
-	
+  <!-- 댓글 시작 -->
+  <div id="replycontainer" class="mt-3">
+  	<form>
+  		<div class="input-group mb-3">
+			  <textarea class="form-control" rows="5" aria-label="With textarea" id="comment"></textarea>
+			  <a href="javascript:postreply()" class="input-group-text">댓글 작성</a>
+	  		<input type="hidden" name="nowPage" value=<%=nowPage %> id="nowPage">
+			</div>
+  		<div>
+  			<div id="replycnt"></div>
+  		</div>
+  		<div class="mt-3 mb-3" style="overflow:auto; height:300px;" id="replylist">
+
+  		</div>
+  	</form>
+  </div>
+  <!-- 댓글  끝 -->
+	</div>
 </body>
+<script>
+	// 댓글 등록 함수
+	function postreply(){
+		$.ajax({
+			url : '/Board/replypost.do', // key와 value형태로 전달 하는 것이다.
+			type : 'GET',
+			data : {"comment" : $('#comment').val(), "nowPage" : $('#nowPage').val()}, // 각 parameter에 해당하는 인자를 아이디에서 값을 뽑아서 전달한다.
+			error : function(){
+				alert('댓글 작성에 오류가 발생했습니다!');
+			},
+			success : function(result){
+				listreply();
+				$('#comment').val("");
+			}
+		});
+	}
+	
+	// 댓글 목록 확인 함수
+	function listreply(){
+		$.ajax({
+			url : '/Board/replylist.do', // key와 value형태로 전달 하는 것이다.
+			type : 'GET',
+			error : function(){
+				alert('댓글 목록 확인 에러!');
+			},
+			success : function(result){
+				// 현재 게시글의 정보를 result에 담아서 붙여넣을것이다.
+				$('#replylist').html(result);
+				totalreplycnt();
+			}
+		});
+	}
+	listreply();
+	
+	// 총 댓글 수 확인 함수 
+	function totalreplycnt(){
+		$.ajax({
+			url : '/Board/replycnt.do', // key와 value형태로 전달 하는 것이다.
+			type : 'GET',
+			error : function(){
+				alert('댓글 수 불러오기 에러!');
+			},
+			success : function(result){
+				$('#replycnt').html(result);
+			}
+		});
+	}
+
+</script>
+
 </html>

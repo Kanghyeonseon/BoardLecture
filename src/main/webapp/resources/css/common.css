@@ -4,6 +4,9 @@ body {
 	width:80%;
 	margin: 0px auto;
 }
+a {
+	text-decoration:none;
+}
 
 
 /* --- 탑 메뉴 스타일 --- */

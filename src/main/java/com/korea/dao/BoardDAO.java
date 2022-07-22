@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.korea.dto.BoardDTO;
+import com.korea.dto.ReplyDTO;
 
 public class BoardDAO {
 	// DB 객체 생성
@@ -142,10 +143,10 @@ public class BoardDAO {
 	
 	public int getLastNo() {
 		try {
-			pstmt = conn.prepareStatement("select /*+INDEX_DESC(tbl_board PK_NO) */ rownum rn, no from tbl_board where rownum=1");
+			pstmt = conn.prepareStatement("select last_number from user_sequences where sequence_name='TBL_BOARD_SEQ'");
 			rs = pstmt.executeQuery();
 			rs.next();
-			int no = rs.getInt(2);
+			int no = rs.getInt(1);
 			return no;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -186,12 +187,76 @@ public class BoardDAO {
 	
 	public boolean Delete(BoardDTO dto) {
 		try {
+			pstmt = conn.prepareStatement("delete from tbl_board where no=?");
+			pstmt.setInt(1, dto.getNo());
+			int result = pstmt.executeUpdate();
+			if(result>0) return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try { pstmt.close(); } catch (Exception e) { e.printStackTrace(); }
 		}
 		return false;
+	}
+	
+	public boolean replypost(ReplyDTO rdto) {
+		try {
+			pstmt = conn.prepareStatement("insert into tbl_reply values(REPLY_SEQ.nextval,?,?,?,sysdate)");
+			pstmt.setInt(1, rdto.getBno());
+			pstmt.setString(2, rdto.getWriter());
+			pstmt.setString(3, rdto.getContent());
+			int result = pstmt.executeUpdate();
+			if(result>0) return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try { pstmt.close(); } catch (Exception e) { e.printStackTrace(); }
+		}
+		return false;
+	}
+	
+	public ArrayList<ReplyDTO> getReplylist(int bno) {
+		ArrayList<ReplyDTO> list = new ArrayList();
+		ReplyDTO dto = null;
+		try {
+			pstmt = conn.prepareStatement("select * from tbl_reply where bno = ? order by rno desc");
+			pstmt.setInt(1, bno);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				dto = new ReplyDTO();
+				dto.setRno(rs.getInt("rno"));
+				dto.setBno(rs.getInt("bno"));
+				dto.setContent(rs.getString("content"));
+				dto.setContent(rs.getString("content"));
+				dto.setWriter(rs.getString("writer"));
+				dto.setRegdate(rs.getString("regdate"));
+				list.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try { pstmt.close(); } catch (Exception e) { e.printStackTrace(); }
+			try { rs.close(); } catch(Exception e) { e.printStackTrace(); }
+		}
+		return list;
+	}
+	
+	
+	public int getTotalReplyCnt(int bno) {
+		int tcnt = 0;
+		try {
+			pstmt = conn.prepareStatement("select count(*) from tbl_reply where bno = ?");
+			pstmt.setInt(1, bno);
+			rs = pstmt.executeQuery();
+			rs.next();
+			tcnt = rs.getInt(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try { pstmt.close(); } catch (Exception e) { e.printStackTrace(); }
+			try { rs.close(); } catch(Exception e) { e.printStackTrace(); }
+		}
+		return tcnt;
 	}
 	
 }

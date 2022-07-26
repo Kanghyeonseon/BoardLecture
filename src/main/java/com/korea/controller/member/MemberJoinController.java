@@ -29,6 +29,7 @@ public class MemberJoinController implements SubController{
 			String pwd = req.getParameter("pwd");
 			String addr1 = req.getParameter("addr1");
 			String addr2 = req.getParameter("addr2");
+			String zipcode = req.getParameter("zipcode");
 			System.out.println(email +", "+ pwd + ", "+addr1 + ", "+addr2);
 			
 			// 2. 입력값 검증
@@ -38,13 +39,15 @@ public class MemberJoinController implements SubController{
 			dto.setPwd(pwd);
 			dto.setAddr1(addr1);
 			dto.setAddr2(addr2);
+			dto.setZipcode(zipcode);
+			
 			boolean result = service.MemberInsert(dto);
 			if(result) {
 				System.out.println("회원가입 성공!");
 			}
 			
 			// 4. View로 이동
-			resp.sendRedirect("/");
+			resp.sendRedirect("/index.do");
 		}
 		
 		} catch (Exception e) { e.printStackTrace(); }

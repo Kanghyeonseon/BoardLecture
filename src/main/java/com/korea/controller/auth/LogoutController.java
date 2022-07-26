@@ -14,7 +14,7 @@ public class LogoutController implements SubController{
 		session.invalidate();
 		try {
 			req.setAttribute("MSG", "로그아웃 완료!");
-			req.getRequestDispatcher("/").forward(req, resp);
+			req.getRequestDispatcher("/index.do").forward(req, resp);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

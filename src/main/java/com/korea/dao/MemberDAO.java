@@ -37,12 +37,13 @@ public class MemberDAO {
 	// INSERT 함수
 	public boolean insert(MemberDTO dto) {
 		try {
-			pstmt=conn.prepareStatement("insert into tbl_member values(?,?,?,?,?)");
+			pstmt=conn.prepareStatement("insert into tbl_member values(?,?,?,?,?,?)");
 			pstmt.setString(1, dto.getEmail());
 			pstmt.setString(2, dto.getPwd());
 			pstmt.setString(3, dto.getAddr1());
 			pstmt.setString(4, dto.getAddr2());
 			pstmt.setInt(5, dto.getGrade());
+			pstmt.setString(6, dto.getZipcode());
 			int result = pstmt.executeUpdate();
 			if(result>0) { return true; }
 		} catch(Exception e) { e.printStackTrace(); 

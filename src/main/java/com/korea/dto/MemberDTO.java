@@ -6,7 +6,14 @@ public class MemberDTO {
 	private String addr1;
 	private String addr2;
 	private int grade; // 권한별 페이지 접근 제한(일반 : 1, 관리자 : 2, 익명 :0)을 위한 자료
+	private String zipcode;
 	
+	public String getZipcode() {
+		return zipcode;
+	}
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
+	}
 	public MemberDTO() {
 		grade=1;
 	}
@@ -43,7 +50,7 @@ public class MemberDTO {
 	@Override
 	public String toString() {
 		return "MemberDTO [email=" + email + ", pwd=" + pwd + ", addr1=" + addr1 + ", addr2=" + addr2 + ", grade="
-				+ grade + "]";
+				+ grade + ", zipcode=" + zipcode + "]";
 	}
 	
 }
